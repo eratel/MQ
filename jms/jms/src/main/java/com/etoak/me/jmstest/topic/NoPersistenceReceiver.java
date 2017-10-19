@@ -1,4 +1,4 @@
-package com.etoak.me.topic;
+package com.etoak.me.jmstest.topic;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -7,12 +7,12 @@ import javax.jms.*;
 /**
  * 非持久  topic
  */
-public class NoPersistenceSender
+public class NoPersistenceReceiver
 {
     private static final String url = "tcp://192.168.175.130:61616";
 
     public static void main(String[] args)
-        throws JMSException
+        throws Exception
     {
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
         Connection connection = connectionFactory.createConnection();
@@ -20,28 +20,17 @@ public class NoPersistenceSender
 
         Session session = connection.createSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);
         Destination destination = session.createTopic("MyTopic");
-        MessageProducer producer = session.createProducer(destination);
-
-        for (int i = 0; i < 3; i++)
+        MessageConsumer consumer = session.createConsumer(destination);
+        //阻塞
+        TextMessage message = (TextMessage)consumer.receive();
+        while (message != null)
         {
-            TextMessage textMessage = session.createTextMessage("message" + i);
-            producer.send(textMessage);
-            System.out.print("start" + i);
+            System.out.print("end" + message.getText());
+            //签收
+            consumer.receive();
         }
         session.commit();
         session.close();
         connection.close();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

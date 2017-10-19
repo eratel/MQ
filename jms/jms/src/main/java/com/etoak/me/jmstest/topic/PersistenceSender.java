@@ -1,36 +1,48 @@
-package com.etoak.me.topic;
+package com.etoak.me.jmstest.topic;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
 
 /**
- * 非持久  topic
+ * 分发 订阅  持久化 接受
  */
-public class NoPersistenceReceiver
+public class PersistenceSender
 {
     private static final String url = "tcp://192.168.175.130:61616";
 
     public static void main(String[] args)
-        throws Exception
+        throws JMSException
     {
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
         Connection connection = connectionFactory.createConnection();
-        connection.start();
 
         Session session = connection.createSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);
         Destination destination = session.createTopic("MyTopic");
-        MessageConsumer consumer = session.createConsumer(destination);
-        //阻塞
-        TextMessage message = (TextMessage)consumer.receive();
-        while (message != null)
+        MessageProducer producer = session.createProducer(destination);
+
+        producer.setDeliveryMode(DeliveryMode.PERSISTENT);
+        connection.start();
+        for (int i = 0; i < 3; i++)
         {
-            System.out.print("end" + message.getText());
-            //签收
-            consumer.receive();
+            TextMessage textMessage = session.createTextMessage("message222" + i);
+            producer.send(textMessage);
+            System.out.print("start" + i);
         }
         session.commit();
         session.close();
         connection.close();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+

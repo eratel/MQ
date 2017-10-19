@@ -1,4 +1,4 @@
-package com.etoak.me.topic;
+package com.etoak.me.jmstest.topic;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
