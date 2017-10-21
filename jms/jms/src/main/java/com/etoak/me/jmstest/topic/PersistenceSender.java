@@ -20,7 +20,7 @@ public class PersistenceSender
         Session session = connection.createSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);
         Destination destination = session.createTopic("MyTopic");
         MessageProducer producer = session.createProducer(destination);
-
+        //修改为发送持久消息
         producer.setDeliveryMode(DeliveryMode.PERSISTENT);
         connection.start();
         for (int i = 0; i < 3; i++)

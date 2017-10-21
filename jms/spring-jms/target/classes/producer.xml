@@ -10,12 +10,12 @@
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 	
-	<context:component-scan base-package="com.etoak.**"></context:component-scan>
-	
+	<context:component-scan base-package="com.etoak.*"></context:component-scan>
+
 	<!-- ActiveMQ提供的ConnectionFactory连接工厂 -->
 	<bean id="targetConnectionFactory" 
 		  class="org.apache.activemq.ActiveMQConnectionFactory">
-		<property name="brokerURL" value="tcp://192.168.175.130:61616"></property>
+		<property name="brokerURL" value="tcp://localhost:61616"></property>
 	</bean>
 	
 	<!-- Spring jms 提供的连接池 -->

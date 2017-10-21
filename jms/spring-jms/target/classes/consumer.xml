@@ -10,12 +10,12 @@
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 	
-	<context:component-scan base-package="com.etoak.**.consumer"></context:component-scan>
+	<!--<context:component-scan base-package="com.etoak.**.consumer"></context:component-scan>-->
 	
 	<!-- ActiveMQ提供的ConnectionFactory连接工厂 -->
 	<bean id="targetConnectionFactory" 
 		  class="org.apache.activemq.ActiveMQConnectionFactory">
-		<property name="brokerURL" value="tcp://192.168.175.130:61616"></property>
+		<property name="brokerURL" value="tcp://localhost:61616"></property>
 	</bean>
 	
 	<!-- Spring jms 提供的连接池 -->
@@ -36,7 +36,7 @@
 			<constructor-arg value="topic"></constructor-arg>
 	</bean>
 	
-	<bean id="consumerMessageListener" class="com.etoak.jms.consumer.ConsumerMessageListener"></bean>
+	<bean id="consumerMessageListener" class="com.etoak.consumer.ConsumerMessageListener"></bean>
 	
 	<!-- 配置消息容器 -->
 	<bean id="jmsContainer" 
@@ -48,6 +48,4 @@
 		<!-- 配置消息监听器  找到consumerMessageListener类-->
 		<property name="messageListener" ref="consumerMessageListener"></property>
 	</bean>
-	
-	
 </beans>

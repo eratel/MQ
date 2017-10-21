@@ -1,4 +1,4 @@
-package com.etoak.jms.producer;
+package com.etoak.producer;
 
 public interface ProducerService {
 	void sendMessage(String message);
